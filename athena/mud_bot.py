@@ -3,6 +3,7 @@ import time
 
 from irc_client import irc_client
 
+
 class mud_bot:
     """An IRC MUD"""
     def __init__(self):
@@ -10,6 +11,21 @@ class mud_bot:
         self._command_prefix = "!"
         self._main_channel = "#mud"
         self._nick = "athenabot"
+        self._registered_commands = {}
+
+    def register_command(self, name):
+        """Decorator function that allows registration of 'commands' """
+
+        print "Registering command %s" % name
+
+        def decorator( func ):
+            self._registered_commands[name] = func
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            
+            return wrapper
+        return decorator
+
 
     def start(self):
         """Start the MUD"""
@@ -58,13 +74,13 @@ class mud_bot:
     def _on_msg(self, nick, msg, channel):
         if channel == self._main_channel:
             if len(msg) > len(self._command_prefix) and msg.startswith(self._command_prefix):
-                command = msg[len(self._command_prefix):]
+                
+                cmdstring = msg[len(self._command_prefix):]
+                cmd_array = cmdstring.split(" ")
+                command = cmd_array[0]
+
                 if command == "help":
                     self._client.send_msg_user(nick, "Type %shelp for help. It's helpful." % self._command_prefix)
+                elif command in self._registered_commands:
+                    self._client.send_msg_channel(self._main_channel, self._registered_commands[command](*cmd_array, sender=nick))
 
-def main():
-    bot = mud_bot()
-    bot.start()
-
-if __name__ == "__main__":
-    main()

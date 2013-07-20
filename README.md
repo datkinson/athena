@@ -3,6 +3,12 @@ Athena
 An IRC based Multi User Dungeon written in Python
 -------------------------------------------------
 
+Developing
+-------------------
+To develop athena, clone the repository, set up a [virtualenv](http://www.virtualenv.org/en/latest/) and run `python setup.py develop`. Make any changes and run `athena` to test.
+
+We should implement unit tests and then we can set up Travis integration :D
+
 ######ToDo:
 + ~~Connect to irc server~~
 + ~~Join channels~~
