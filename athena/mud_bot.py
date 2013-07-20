@@ -15,6 +15,9 @@ class mud_bot:
 
     def register_command(self, name):
         """Decorator function that allows registration of 'commands' """
+
+        print "Registering command %s" % name
+
         def decorator( func ):
             self._registered_commands[name] = func
             def wrapper(*args, **kwargs):

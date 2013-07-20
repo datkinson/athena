@@ -1,10 +1,9 @@
 from mud_bot import mud_bot
 
+#set up the bot instance so that athena commands can register with it
 bot = mud_bot()
 
-@bot.register_command("echo")
-def echo( *args, **kwargs ):
-    return "%s: %s" % (kwargs['sender']," ".join(args[1:]))
+import athena.commands
 
 def main():
     bot.start()
