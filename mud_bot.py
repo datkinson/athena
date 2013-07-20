@@ -81,14 +81,3 @@ class mud_bot:
                 elif command in self._registered_commands:
                     self._client.send_msg_channel(self._main_channel, self._registered_commands[command](*cmd_array, sender=nick))
 
-def main():
-    bot = mud_bot()
-
-    @bot.register_command("echo")
-    def echo( *args, **kwargs ):
-        return "%s: %s" % (kwargs['sender']," ".join(args[1:]))
-    
-    bot.start()
-
-if __name__ == "__main__":
-    main()
